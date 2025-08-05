@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Island_Insight.Models;
+namespace Island_Insights.Models;
 
 public class NewsArticle
 {

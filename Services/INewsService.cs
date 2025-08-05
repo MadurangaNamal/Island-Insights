@@ -1,6 +1,6 @@
-﻿using Island_Insight.Models;
+﻿using Island_Insights.Models;
 
-namespace Island_Insight.Services;
+namespace Island_Insights.Services;
 
 public interface INewsService
 {

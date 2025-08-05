@@ -1,1 +1,1 @@
-# Island Insight
+# Island Insights

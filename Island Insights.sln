@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36301.6
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Island Insight", "Island Insight.csproj", "{4B875D6C-1B52-42B7-B000-82F733D5A651}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Island Insights", "Island Insights.csproj", "{4B875D6C-1B52-42B7-B000-82F733D5A651}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
