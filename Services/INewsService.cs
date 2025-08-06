@@ -4,5 +4,5 @@ namespace Island_Insights.Services;
 
 public interface INewsService
 {
-    Task<NewsApiResponse> GetLatestNewsAsync();
+    Task<NewsSourcesApiResponse> GetNewsSourcesAsync(string countryCode, string? nextPage);
 }

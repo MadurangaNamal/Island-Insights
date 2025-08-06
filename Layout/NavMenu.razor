@@ -1,4 +1,4 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿<div class="top-row ps-3 navbar navbar-dark custom-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Island Insights</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -7,22 +7,30 @@
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
+<div class="@NavMenuCssClass nav-scrollable custom-navbar" @onclick="ToggleNavMenu">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link custom-nav-item" href="" Match="NavLinkMatch.All">
                 <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="sports">
-                    <span class="bi bi-trophy-fill" aria-hidden="true"></span>
+            <NavLink class="nav-link custom-nav-item" href="local">
+                    Local
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link custom-nav-item" href="world">
+                    World
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link custom-nav-item" href="sports">
                     Sports
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                    <span class="bi bi-cloud-sun-fill" aria-hidden="true"></span>
+            <NavLink class="nav-link custom-nav-item" href="weather">
                     Weather
             </NavLink>
         </div>

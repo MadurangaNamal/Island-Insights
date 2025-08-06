@@ -1,8 +1,9 @@
 ﻿using System.Text.Json.Serialization;
 
+#nullable enable
 namespace Island_Insights.Models;
 
-public class NewsApiResponse
+public class NewsSourcesApiResponse
 {
     [JsonPropertyName("status")]
     public string Status { get; set; }
@@ -11,8 +12,8 @@ public class NewsApiResponse
     public int TotalResults { get; set; }
 
     [JsonPropertyName("results")]
-    public List<NewsArticle> Results { get; set; }
+    public List<NewsSource> Results { get; set; }
 
     [JsonPropertyName("nextPage")]
-    public string NextPage { get; set; }
+    public string? NextPage { get; set; }
 }

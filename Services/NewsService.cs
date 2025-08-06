@@ -14,9 +14,14 @@ public class NewsService : INewsService
         _settings = settings ?? throw new ArgumentNullException(nameof(settings));
     }
 
-    public async Task<NewsApiResponse> GetLatestNewsAsync()
+    public async Task<NewsSourcesApiResponse> GetNewsSourcesAsync(string countryCode, string? nextPage = null)
     {
-        var url = $"{_settings.BaseUrl}&apikey={_settings.ApiKey}";
+        var url = $"{_settings.BaseUrl}/sources?country={countryCode}&apikey={_settings.ApiKey}";
+
+        if (!string.IsNullOrEmpty(nextPage))
+        {
+            url += $"&page={nextPage}";
+        }
 
         var options = new JsonSerializerOptions
         {
@@ -24,7 +29,7 @@ public class NewsService : INewsService
         };
 
         var jsonString = await _httpClient.GetStringAsync(url);
-        var response = JsonSerializer.Deserialize<NewsApiResponse>(jsonString, options);
+        var response = JsonSerializer.Deserialize<NewsSourcesApiResponse>(jsonString, options);
 
         return response ?? throw new InvalidOperationException("Failed to deserialize news response.");
     }
