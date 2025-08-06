@@ -1,13 +1,13 @@
 ﻿<div class="top-row ps-3 navbar navbar-dark custom-navbar">
     <div class="container-fluid">
         <a class="navbar-brand" href="">Island Insights</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
+        <button class="btn" @onclick="ToggleNavMenu" aria-label="Toggle navigation">
+            <i class="bi bi-list text-white" style="font-size: 1.5rem;"></i>
         </button>
     </div>
 </div>
 
-<div class="@NavMenuCssClass nav-scrollable custom-navbar" @onclick="ToggleNavMenu">
+<div class="nav-scrollable custom-navbar @(collapseNavMenu ? "collapsed" : "expanded")">
     <nav class="nav flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link custom-nav-item" href="" Match="NavLinkMatch.All">
@@ -38,12 +38,11 @@
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private bool collapseNavMenu = false;
 
     private void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+        StateHasChanged(); 
     }
 }
