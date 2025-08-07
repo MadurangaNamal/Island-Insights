@@ -27,6 +27,8 @@ a, .btn-link {
 
 .content {
     padding-top: 1.1rem;
+    background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+    /*background: linear-gradient(135deg, #232526 0%, #414345 100%);*/
 }
 
 .valid.modified:not([type=checkbox]) {
@@ -169,4 +171,61 @@ code {
     .nav-scrollable {
         display: block !important;
     }
+}
+
+/* fixe */
+.top-row {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.content {
+    flex: 1;
+    background: linear-gradient(135deg, #1a2a6c 0%, #b21f1f 50%, #fdbb2d 100%);
+    min-height: calc(100vh - 3.5rem);
+    padding-top: 1.1rem;
+}
+
+/* Responsive Design */
+@media (max-width: 767.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+        .sidebar.show {
+            transform: translateX(0);
+        }
+
+    main {
+        margin-left: 0;
+    }
+
+    .toggle-btn {
+        display: block;
+    }
+
+    .nav-scrollable.collapsed {
+        display: none;
+    }
+
+    .nav-scrollable.expanded {
+        display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    .nav-scrollable {
+        display: block !important;
+    }
+}
+
+/* Fix icon class */
+.bi-house-door-fill {
+    margin-right: 8px;
 }
