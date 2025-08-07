@@ -7,30 +7,44 @@ public class NewsService : INewsService
 {
     private readonly HttpClient _httpClient;
     private readonly NewsDataApiSettings _settings;
+    private readonly JsonSerializerOptions _jsonOptions;
 
     public NewsService(HttpClient httpClient, NewsDataApiSettings settings)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _settings = settings ?? throw new ArgumentNullException(nameof(settings));
-    }
-
-    public async Task<NewsSourcesApiResponse> GetNewsSourcesAsync(string countryCode, string? nextPage = null)
-    {
-        var url = $"{_settings.BaseUrl}/sources?country={countryCode}&apikey={_settings.ApiKey}";
-
-        if (!string.IsNullOrEmpty(nextPage))
-        {
-            url += $"&page={nextPage}";
-        }
-
-        var options = new JsonSerializerOptions
+        _jsonOptions = new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true
         };
+    }
 
+    public Task<NewsSourcesApiResponse> GetNewsSourcesAsync(string countryCode, string? nextPage = null)
+    {
+        var url = BuildUrl("sources", countryCode, nextPage);
+        return GetApiResponseAsync<NewsSourcesApiResponse>(url);
+    }
+
+    public Task<NewsArticlesApiResponse> GetNewsArticlesAsync(string countryCode, string? nextPage = null)
+    {
+        var url = BuildUrl("latest", countryCode, nextPage);
+        return GetApiResponseAsync<NewsArticlesApiResponse>(url);
+    }
+
+    private async Task<T> GetApiResponseAsync<T>(string url)
+    {
         var jsonString = await _httpClient.GetStringAsync(url);
-        var response = JsonSerializer.Deserialize<NewsSourcesApiResponse>(jsonString, options);
+        var response = JsonSerializer.Deserialize<T>(jsonString, _jsonOptions);
+        return response ?? throw new InvalidOperationException($"Failed to deserialize response of type {typeof(T).Name}.");
+    }
 
-        return response ?? throw new InvalidOperationException("Failed to deserialize news response.");
+    private string BuildUrl(string endpoint, string countryCode, string? page)
+    {
+        var url = $"{_settings.BaseUrl}/{endpoint}?country={countryCode}&apikey={_settings.ApiKey}";
+        if (!string.IsNullOrEmpty(page))
+        {
+            url += $"&page={page}";
+        }
+        return url;
     }
 }

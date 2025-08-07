@@ -2,10 +2,8 @@
 
 namespace Island_Insights.Models;
 
-public class NewsSourcesApiResponse : NewsApiResponse
+public class NewsArticlesApiResponse : NewsApiResponse
 {
-
     [JsonPropertyName("results")]
-    public List<NewsSource>? Results { get; set; }
-
+    public List<NewsArticle>? Results { get; set; }
 }
