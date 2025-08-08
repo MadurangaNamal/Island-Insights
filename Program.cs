@@ -13,10 +13,10 @@ builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.
 
 var host = builder.Build();
 var http = host.Services.GetRequiredService<HttpClient>();
-var config = await http.GetFromJsonAsync<NewsDataApiSettings>("appsettings.json");
+var config = await http.GetFromJsonAsync<NewsDataApiSettings>("appsettings.json")
+    ?? throw new InvalidOperationException("Failed to load NewsDataApiSettings from appsettings.json.");
 
 builder.Services.AddSingleton(config);
-
 builder.Services.AddScoped<INewsService, NewsService>();
 
 await builder.Build().RunAsync();

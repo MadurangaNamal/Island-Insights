@@ -5,31 +5,31 @@ namespace Island_Insights.Models;
 public class NewsSource
 {
     [JsonPropertyName("id")]
-    public string Id { get; set; } = string.Empty;
+    public string? Id { get; set; }
 
     [JsonPropertyName("name")]
-    public string Name { get; set; } = string.Empty;
+    public string? Name { get; set; }
 
     [JsonPropertyName("url")]
-    public string Url { get; set; } = string.Empty;
+    public string? Url { get; set; }
 
     [JsonPropertyName("icon")]
-    public string Icon { get; set; } = string.Empty;
+    public string? Icon { get; set; }
 
     [JsonPropertyName("priority")]
     public int Priority { get; set; }
 
     [JsonPropertyName("description")]
-    public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; }
 
     [JsonPropertyName("category")]
-    public List<string> Category { get; set; } = new();
+    public List<string>? Category { get; set; }
 
     [JsonPropertyName("language")]
-    public List<string> Language { get; set; } = new();
+    public List<string>? Language { get; set; }
 
     [JsonPropertyName("country")]
-    public List<string> Country { get; set; } = new();
+    public List<string>? Country { get; set; }
 
     [JsonPropertyName("total_article")]
     public int? TotalArticle { get; set; }
