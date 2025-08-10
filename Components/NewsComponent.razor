@@ -1,0 +1,163 @@
+﻿
+<div class="container-fluid py-4">
+    @if (Articles != null && Articles.Any())
+    {
+        <div class="row g-4">
+            @foreach (var article in Articles)
+            {
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="card h-100 shadow-sm border-0 news-article-card">
+                        @if (!string.IsNullOrEmpty(article.ImageUrl))
+                        {
+                            <div class="news-image-container">
+                                <img src="@article.ImageUrl"
+                                     class="card-img-top news-image"
+                                     alt="@article.Title"
+                                     loading="lazy"
+                                     onerror="this.style.display='none';">
+                            </div>
+                        }
+
+                        <div class="card-body d-flex flex-column">
+                            <div class="mb-2">
+                                @if (article.Category != null && article.Category.Any())
+                                {
+                                    <span class="badge bg-primary mb-2">@article.Category.First().ToUpper()</span>
+                                }
+
+                                <div class="d-flex align-items-center text-muted small mb-2">
+                                    @if (!string.IsNullOrEmpty(article.SourceName))
+                                    {
+                                        <span class="me-2">
+                                            @if (!string.IsNullOrEmpty(article.SourceIcon))
+                                            {
+                                                <img src="@article.SourceIcon"
+                                                     alt="@article.SourceName"
+                                                     class="source-icon me-1"
+                                                     onerror="this.style.display='none';">
+                                            }
+                                            @article.SourceName
+                                        </span>
+                                    }
+
+                                    @if (article.ParsedPubDate.HasValue)
+                                    {
+                                        <span>• @article.ParsedPubDate.Value.ToString("MMM dd, yyyy")</span>
+                                    }
+                                </div>
+                            </div>
+
+                            <h5 class="news-card-title mb-3 lh-base">@article.Title</h5>
+
+                            @if (!string.IsNullOrEmpty(article.ImageUrl))
+                            {
+                                <div class="mb-3">
+                                    <img src="@article.ImageUrl"
+                                         class="img-fluid rounded"
+                                         alt="@article.Title"
+                                         loading="lazy"
+                                         onerror="this.parentElement.style.display='none';">
+                                </div>
+                            }
+
+                            @if (!string.IsNullOrEmpty(article.Description))
+                            {
+                                <div class="card-text text-muted flex-grow-1 mb-3">
+                                    @{
+                                        var isExpanded = expandedArticles.Contains(article.ArticleId ?? "");
+                                        var shouldTruncate = article.Description.Length > 150;
+                                        var displayText = shouldTruncate && !isExpanded
+                                        ? article.Description.Substring(0, 150) + "..."
+                                        : article.Description;
+                                    }
+
+                                    <p class="mb-2">@displayText</p>
+
+                                    @if (shouldTruncate)
+                                    {
+                                        <button class="btn btn-link p-0 text-primary small"
+                                                @onclick="@(() => ToggleExpanded(article.ArticleId ?? ""))"
+                                                @onclick:stopPropagation="true">
+                                            @(isExpanded ? "See less" : "See more")
+                                        </button>
+                                    }
+                                </div>
+                            }
+
+                            <div class="mt-auto">
+                                @if (article.Keywords != null && article.Keywords.Any())
+                                {
+                                    <div class="mb-2">
+                                        @foreach (var keyword in article.Keywords.Take(3))
+                                        {
+                                            <span class="badge bg-light text-dark me-1 small">#@keyword</span>
+                                        }
+                                    </div>
+                                }
+
+                                <div class="d-flex justify-content-between align-items-center">
+                                    @if (article.Creator != null && article.Creator.Any())
+                                    {
+                                        <small class="text-muted">By @string.Join(", ", article.Creator)</small>
+                                    }
+
+                                    <a href="@article.Link"
+                                       target="_blank"
+                                       class="btn btn-outline-primary btn-sm">
+                                        Read Full Article
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else if (IsLoading)
+    {
+        <div class="d-flex justify-content-center py-5">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+            <div class="mb-3">
+                <i class="bi bi-newspaper" style="font-size: 3rem; color: #6c757d;"></i>
+            </div>
+            <h4 class="text-muted">No articles available</h4>
+            <p class="text-muted">Please check back later for updates.</p>
+        </div>
+    }
+</div>
+
+<style>
+
+    
+
+</style>
+
+@code {
+
+    [Parameter] 
+    public List<NewsArticle>? Articles { get; set; }
+    [Parameter] 
+    public bool IsLoading { get; set; } = false;
+
+    private HashSet<string> expandedArticles = new HashSet<string>();
+
+    private void ToggleExpanded(string articleId)
+    {
+        if (expandedArticles.Contains(articleId))
+        {
+            expandedArticles.Remove(articleId);
+        }
+        else
+        {
+            expandedArticles.Add(articleId);
+        }
+    }
+}
