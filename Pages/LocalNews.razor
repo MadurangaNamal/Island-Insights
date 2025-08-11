@@ -6,7 +6,12 @@
 <div class="container-fluid">
     <div class="row mb-4">
         <div class="col-12">
-            <h2 class="text-center text-warning fw-semibold fs-3 mb-2">Local News</h2>
+            <h2 class="text-center text-warning fw-semibold fs-3 mb-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/11/Flag_of_Sri_Lanka.svg"
+                     alt="Sri Lankan Flag"
+                     style="width:24px; height:auto; vertical-align:middle; margin-right:4px;">
+                Local News
+            </h2>
             <p class="text-center text-white fs-6 mb-4">Stay updated with the latest local developments</p>
         </div>
     </div>
@@ -19,8 +24,7 @@
 </div>
 
 @code {
-    // private NewsArticlesApiResponse? newsArticlesResponse;
-    // private List<NewsArticle>? newsArticles => newsArticlesResponse!.Results;
+
     private List<NewsArticle>? newsArticles = new List<NewsArticle>();
     private string? nextPage;
     private string countryCode = "LK";
