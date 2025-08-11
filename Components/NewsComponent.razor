@@ -113,6 +113,27 @@
                 </div>
             }
         </div>
+
+        @if (!string.IsNullOrEmpty(NextPage) && !IsLoading)
+        {
+            <div class="row mt-4">
+                <div class="col-12 text-center">
+                    <button class="btn btn-primary btn-lg px-5"
+                            @onclick="LoadMoreArticles"
+                            disabled="@IsLoadingMore">
+                        @if (IsLoadingMore)
+                        {
+                            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                            <span>Loading more...</span>
+                        }
+                        else
+                        {
+                            <span>Load More Articles</span>
+                        }
+                    </button>
+                </div>
+            </div>
+        }
     }
     else if (IsLoading)
     {
@@ -134,18 +155,18 @@
     }
 </div>
 
-<style>
-
-    
-
-</style>
-
 @code {
 
     [Parameter] 
     public List<NewsArticle>? Articles { get; set; }
     [Parameter] 
     public bool IsLoading { get; set; } = false;
+    [Parameter] 
+    public bool IsLoadingMore { get; set; } = false;
+    [Parameter] 
+    public string? NextPage { get; set; }
+    [Parameter] 
+    public EventCallback<string> OnLoadMore { get; set; }
 
     private HashSet<string> expandedArticles = new HashSet<string>();
 
@@ -158,6 +179,14 @@
         else
         {
             expandedArticles.Add(articleId);
+        }
+    }
+
+    private async Task LoadMoreArticles()
+    {
+        if (!string.IsNullOrEmpty(NextPage))
+        {
+            await OnLoadMore.InvokeAsync(NextPage);
         }
     }
 }

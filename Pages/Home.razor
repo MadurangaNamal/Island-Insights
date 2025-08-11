@@ -105,10 +105,10 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await LoadNews();
+        await LoadNewsSources();
     }
 
-    private async Task LoadNews(string? page = null)
+    private async Task LoadNewsSources(string? page = null)
     {
         isLoading = true;
         var result = await NewsService.GetNewsSourcesAsync(countryCode, page);
@@ -131,7 +131,7 @@
     {
         if (!string.IsNullOrEmpty(nextPage))
         {
-            await LoadNews(nextPage);
+            await LoadNewsSources(nextPage);
         }
     }
 }
