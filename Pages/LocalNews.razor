@@ -1,9 +1,83 @@
 ﻿@page "/local"
+@inject INewsService NewsService
 
 <PageTitle>Local News</PageTitle>
 
-<h1>Local</h1>
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-center text-warning fw-semibold fs-3 mb-2">Local News</h2>
+            <p class="text-center text-white fs-6 mb-4">Stay updated with the latest local developments</p>
+        </div>
+    </div>
+
+    <NewsComponent Articles="@newsArticles"
+                   IsLoading="@isInitialLoading"
+                   IsLoadingMore="@isLoadingMore"
+                   NextPage="@nextPage"
+                   OnLoadMore="@LoadMoreNews" />
+</div>
 
 @code {
+    // private NewsArticlesApiResponse? newsArticlesResponse;
+    // private List<NewsArticle>? newsArticles => newsArticlesResponse!.Results;
+    private List<NewsArticle>? newsArticles = new List<NewsArticle>();
+    private string? nextPage;
+    private string countryCode = "LK";
+    private bool isInitialLoading = true;
+    private bool isLoadingMore = false;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadLocalNews();
+    }
+
+    private async Task LoadLocalNews(string? page = null)
+    {
+        try
+        {
+            isInitialLoading = true;
+            var response = await NewsService.GetNewsArticlesAsync(countryCode, page);
+
+            if (response?.Results != null)
+            {
+                newsArticles = response.Results;
+                nextPage = response.NextPage;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading news: {ex.Message}");
+        }
+        finally
+        {
+            isInitialLoading = false;
+        }
+    }
+
+    private async Task LoadMoreNews(string nextPageId)
+    {
+        try
+        {
+            isLoadingMore = true;
+            StateHasChanged();
+
+            var response = await NewsService.GetNewsArticlesAsync(countryCode, nextPageId);
+
+            if (response?.Results != null)
+            {
+                newsArticles!.AddRange(response.Results);
+                nextPage = response.NextPage;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading more news: {ex.Message}");
+        }
+        finally
+        {
+            isLoadingMore = false;
+            StateHasChanged();
+        }
+    }
 }
