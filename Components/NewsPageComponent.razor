@@ -24,6 +24,7 @@
 </div>
 
 @code {
+
     [Parameter] public string Title { get; set; } = string.Empty;
     [Parameter] public string Subtitle { get; set; } = string.Empty;
     [Parameter] public string? IconUrl { get; set; }
@@ -31,7 +32,7 @@
     [Parameter] public string CountryCode { get; set; } = "LK";
     [Parameter] public string? Category { get; set; }
 
-    private List<NewsArticle>? newsArticles = new List<NewsArticle>();
+    private List<NewsArticle>? newsArticles = new();
     private string? nextPage;
     private bool isInitialLoading = true;
     private bool isLoadingMore = false;
