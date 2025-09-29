@@ -1,0 +1,92 @@
+﻿@inject INewsService NewsService
+
+<div class="container-fluid">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="text-center text-warning fw-semibold fs-3 mb-2">
+                @if (!string.IsNullOrEmpty(IconUrl))
+                {
+                    <img src="@IconUrl"
+                         alt="@IconAlt"
+                         style="width:24px; height:auto; vertical-align:middle; margin-right:3px;">
+                }
+                @Title
+            </h2>
+            <p class="text-center text-white fs-6 mb-4">@Subtitle</p>
+        </div>
+    </div>
+
+    <NewsComponent Articles="@newsArticles"
+                   IsLoading="@isInitialLoading"
+                   IsLoadingMore="@isLoadingMore"
+                   NextPage="@nextPage"
+                   OnLoadMore="@LoadMoreNews" />
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = string.Empty;
+    [Parameter] public string Subtitle { get; set; } = string.Empty;
+    [Parameter] public string? IconUrl { get; set; }
+    [Parameter] public string IconAlt { get; set; } = string.Empty;
+    [Parameter] public string CountryCode { get; set; } = "LK";
+    [Parameter] public string? Category { get; set; }
+
+    private List<NewsArticle>? newsArticles = new List<NewsArticle>();
+    private string? nextPage;
+    private bool isInitialLoading = true;
+    private bool isLoadingMore = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadNews();
+    }
+
+    private async Task LoadNews(string? page = null)
+    {
+        try
+        {
+            isInitialLoading = true;
+            var response = await NewsService.GetNewsArticlesAsync(CountryCode, Category, page);
+
+            if (response?.Results != null)
+            {
+                newsArticles = response.Results;
+                nextPage = response.NextPage;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading news: {ex.Message}");
+        }
+        finally
+        {
+            isInitialLoading = false;
+        }
+    }
+
+    private async Task LoadMoreNews(string nextPageId)
+    {
+        try
+        {
+            isLoadingMore = true;
+            StateHasChanged();
+
+            var response = await NewsService.GetNewsArticlesAsync(CountryCode, Category, nextPageId);
+
+            if (response?.Results != null)
+            {
+                newsArticles!.AddRange(response.Results);
+                nextPage = response.NextPage;
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error loading more news: {ex.Message}");
+        }
+        finally
+        {
+            isLoadingMore = false;
+            StateHasChanged();
+        }
+    }
+}
