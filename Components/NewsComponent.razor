@@ -50,10 +50,10 @@
                                 <div class="text-muted flex-grow-1 mb-3">
                                     @{
                                         var isExpanded = expandedArticles.Contains(article.ArticleId ?? "");
-                                        var shouldTruncate = article.Description.Length > 160;
+                                        var shouldTruncate = article.Description.Length > 350;
 
                                         var displayText = shouldTruncate && !isExpanded
-                                        ? article.Description[..160] + "..."
+                                        ? article.Description[..350] + "..."
                                         : article.Description;
                                     }
 
