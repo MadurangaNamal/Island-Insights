@@ -21,8 +21,8 @@ a, .btn-link {
     box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
 }
 
-.silver-gradient {
-    background: linear-gradient(to right, #c0c0c0, #e0e0e0);
+.top-bar {
+    background: linear-gradient(135deg, #2c3e50, #4a6572);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -293,6 +293,90 @@ code {
     width: 16px;
     height: 16px;
     object-fit: contain;
+}
+
+/* About page styles */
+.about-page {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 1.8rem;
+    background: rgba(255,255,255,0.95);
+    border-radius: 12px;
+    box-shadow: 0 6px 30px rgba(10,10,10,0.08);
+}
+
+.about-header {
+    border-bottom: 1px solid #e9eef6;
+    margin-bottom: 1rem;
+}
+
+.about-title {
+    margin: 0 0 0.25rem 0;
+    font-size: 1.9rem;
+    color: #1b3b5f;
+}
+
+.lead {
+    color: #334e68;
+    font-size: 1.05rem;
+}
+
+.author-section {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0 1.5rem 0;
+}
+
+.author-card {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.author-avatar {
+    width: 64px;
+    height: 64px;
+    background: linear-gradient(135deg,#1b6ec2 0%, #33a8ff 100%);
+    color: white;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 1.25rem;
+}
+
+.author-info .author-name {
+    font-weight: 700;
+    color: #0b2540;
+}
+
+.author-info .author-role {
+    font-size: 0.9rem;
+    color: #6c7a89;
+}
+
+.btn-github {
+    background-image: linear-gradient(90deg, #222 0%, #444 100%);
+    border: none;
+    box-shadow: none;
+}
+
+.btn-github:hover {
+    background-image: linear-gradient(90deg,#333 0%, #555 100%);
+}
+
+@media (max-width: 600px) {
+    .about-page {
+        margin: 1rem;
+        padding: 1rem;
+    }
+
+    .author-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 1rem;
+    }
 }
 
 

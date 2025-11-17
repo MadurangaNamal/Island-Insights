@@ -1,7 +1,35 @@
 ﻿@page "/about"
+@inject NavigationManager NavigationManager
 
-<h3>Maduranga Wimalarathne</h3>
+<main class="about-page" role="main">
+    <header class="about-header">
+        <h1 class="about-title">About Island Insights</h1>
+    </header>
+
+    <section aria-labelledby="mission-heading">
+        <p class="lead">Island Insights is a lightweight, fast, and accessible Blazor WebAssembly application that delivers curated news and information about islands worldwide. Our focus is on clarity, reliability, and a distraction-free reading experience.</p>
+    </section>
+
+    <section class="author-section" aria-labelledby="author-heading">
+        <div class="author-card">
+            <div class="author-avatar" aria-hidden="true">MW</div>
+            <div class="author-info">
+                <div class="author-name">Maduranga Wimalarathne</div>
+                <div class="author-role">Creator &amp; Maintainer</div>
+            </div>
+        </div>
+    </section>
+
+    <section aria-labelledby="contribute-heading">
+        <h3 id="contribute-heading">Get involved</h3>
+        <p>Found an issue or want to contribute? Open an issue or submit a pull request on the project repository.</p>
+        <button class="btn btn-primary btn-github" @onclick="OpenRepository" aria-label="View project on GitHub">View project on GitHub</button>
+    </section>
+</main>
 
 @code {
-
+    private void OpenRepository()
+    {
+        NavigationManager.NavigateTo("https://github.com/MadurangaNamal/Island-Insights", true);
+    }
 }
