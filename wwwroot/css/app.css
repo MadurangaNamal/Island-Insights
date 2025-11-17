@@ -268,3 +268,31 @@ code {
 .news-card-title {
     font-size: 1.1rem;
 }
+
+
+/* News article card */
+
+.news-image {
+    height: 180px;
+    object-fit: cover;
+    border-top-left-radius: 0.6rem;
+    border-top-right-radius: 0.6rem;
+}
+
+.news-article-card {
+    transition: transform .15s ease, box-shadow .15s ease;
+    border-radius: 0.6rem;
+}
+
+    .news-article-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+.source-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+

@@ -7,67 +7,53 @@
             {
                 <div class="col-12 col-md-6 col-lg-4">
                     <div class="card h-100 shadow-sm border-0 news-article-card">
+
                         @if (!string.IsNullOrEmpty(article.ImageUrl))
                         {
-                            <div class="news-image-container">
-                                <img src="@article.ImageUrl"
-                                     class="card-img-top news-image"
-                                     alt="@article.Title"
-                                     loading="lazy"
-                                     onerror="this.style.display='none';">
-                            </div>
+                            <img src="@article.ImageUrl"
+                                 class="card-img-top news-image"
+                                 alt="@article.Title"
+                                 loading="lazy"
+                                 onerror="this.style.display='none';" />
                         }
 
                         <div class="card-body d-flex flex-column">
-                            <div class="mb-2">
-                                @if (article.Category != null && article.Category.Any())
-                                {
-                                    <span class="badge bg-primary mb-2">@article.Category.First().ToUpper()</span>
-                                }
 
-                                <div class="d-flex align-items-center text-muted small mb-2">
-                                    @if (!string.IsNullOrEmpty(article.SourceName))
-                                    {
-                                        <span class="me-2">
-                                            @if (!string.IsNullOrEmpty(article.SourceIcon))
-                                            {
-                                                <img src="@article.SourceIcon"
-                                                     alt="@article.SourceName"
-                                                     class="source-icon me-1"
-                                                     onerror="this.style.display='none';">
-                                            }
-                                            @article.SourceName
-                                        </span>
-                                    }
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge bg-primary">
+                                    @(article.Category?.FirstOrDefault()?.ToUpper() ?? "NEWS")
+                                </span>
 
-                                    @if (article.ParsedPubDate.HasValue)
+                                <small class="text-muted d-flex align-items-center">
+                                    @if (!string.IsNullOrEmpty(article.SourceIcon))
                                     {
-                                        <span>• @article.ParsedPubDate.Value.ToString("MMM dd, yyyy")</span>
+                                        <img src="@article.SourceIcon"
+                                             alt="@article.SourceName"
+                                             class="source-icon me-1"
+                                             onerror="this.style.display='none';" />
                                     }
-                                </div>
+                                    @article.SourceName
+                                </small>
                             </div>
 
-                            <h5 class="news-card-title mb-3 lh-base">@article.Title</h5>
-
-                            @if (!string.IsNullOrEmpty(article.ImageUrl))
+                            @if (article.ParsedPubDate.HasValue)
                             {
-                                <div class="mb-3">
-                                    <img src="@article.ImageUrl"
-                                         class="img-fluid rounded"
-                                         alt="@article.Title"
-                                         loading="lazy"
-                                         onerror="this.parentElement.style.display='none';">
+                                <div class="text-muted small mb-2">
+                                    @article.ParsedPubDate.Value.ToString("MMM dd, yyyy")
                                 </div>
                             }
 
+                            <h5 class="news-card-title fw-semibold mb-3">@article.Title</h5>
+
                             @if (!string.IsNullOrEmpty(article.Description))
                             {
-                                <div class="card-text text-muted flex-grow-1 mb-3">
+                                <div class="text-muted flex-grow-1 mb-3">
                                     @{
                                         var isExpanded = expandedArticles.Contains(article.ArticleId ?? "");
-                                        var shouldTruncate = article.Description.Length > 150;
+                                        var shouldTruncate = article.Description.Length > 160;
+
                                         var displayText = shouldTruncate && !isExpanded
-                                        ? article.Description.Substring(0, 150) + "..."
+                                        ? article.Description[..160] + "..."
                                         : article.Description;
                                     }
 
@@ -96,6 +82,7 @@
                                 }
 
                                 <div class="d-flex justify-content-between align-items-center">
+
                                     @if (article.Creator != null && article.Creator.Any())
                                     {
                                         <small class="text-muted">By @string.Join(", ", article.Creator)</small>
@@ -104,8 +91,9 @@
                                     <a href="@article.Link"
                                        target="_blank"
                                        class="btn btn-outline-primary btn-sm">
-                                        Read Full Article
+                                        Read More
                                     </a>
+
                                 </div>
                             </div>
                         </div>
