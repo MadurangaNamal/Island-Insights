@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ 'master', 'main' ]
+  pull_request:
+    branches: [ 'master', 'main' ]
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    name: Build, Test and Publish
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: [ '9.0.x' ]
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ matrix.dotnet-version }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ matrix.dotnet-version }}-
+
+      - name: Restore NuGet packages
+        run: dotnet restore "Island Insights.sln"
+
+      - name: Build solution
+        run: dotnet build "Island Insights.sln" --configuration Release --no-restore
+
+    #   - name: Run tests
+    #     run: |
+    #       dotnet test "Island Insights.sln" --configuration Release --no-build --no-restore --verbosity normal
+
+      - name: Publish project
+        if: success()
+        run: |
+          dotnet publish "Island Insights.csproj" -c Release -o publish --no-build
+
+      - name: Upload published artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: island-insights-publish
+          path: publish
