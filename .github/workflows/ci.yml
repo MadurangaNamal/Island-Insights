@@ -53,3 +53,12 @@ jobs:
         with:
           name: island-insights-publish
           path: publish
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          projectName: expensestracker
+          directory: publish/wwwroot
+
